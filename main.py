@@ -17,7 +17,7 @@ def requester(params: list):
 
 
 def write_to_csv(header_row: list, genres: dict, games: list, datafile='data_file.csv'):
-    data_file = open(datafile, 'w', encoding='utf-8')
+    data_file = open(datafile, 'w', encoding='utf-8', newline='')
     csv_writer = csv.writer(data_file)
     csv_writer.writerow(header_row)
 
@@ -31,9 +31,10 @@ def write_to_csv(header_row: list, genres: dict, games: list, datafile='data_fil
 
         csv_writer.writerow(row)
     print("DONE")
+    print(f"{len(games)} added!")
 
 
-def create_dataset(game_limit='100', datafile='data_file.csv'):
+def create_dataset(game_limit='300', datafile='data_file.csv'):
     valid_genre_data = requester(['genres',
                                   'fields name; limit 100;'])
     valid_genres = {}
