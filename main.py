@@ -34,7 +34,7 @@ def write_to_csv(header_row: list, genres: dict, games: list, datafile='data_fil
     print(f"{len(games)} added!")
 
 
-def create_dataset(game_limit='300', datafile='data_file.csv'):
+def create_dataset(game_limit='300', datafile='game_genres.csv'):
     valid_genre_data = requester(['genres',
                                   'fields name; limit 100;'])
     valid_genres = {}
