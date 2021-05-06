@@ -43,15 +43,46 @@ def create_dataset(game_limit='300', datafile='game_genres.csv'):
         valid_genres[vgd['id']] = vgd['name']
         headers.append(vgd['name'])
     games = []
-    game_data = requester(['games',
-                           'fields name, genres; where genres != null; sort rating desc; where rating != null; limit '
-                           f'{game_limit};'])
-    for gd in game_data:
-        if 'genres' in gd and len(gd['genres']) > 2:
-            games.append(gd)
+    iterations = int(int(game_limit) / 500)
+    offset = int(game_limit) % 500
+    print(iterations)
+    print(offset)
+    it = 1
+    # if iterations > 0:
+    #     print(it)
+    #     for i in range(0, iterations):
+    limit = int(game_limit)
+    if limit < 501:
+        game_data = requester(['games',
+                               'fields name, genres; where genres != null; sort rating desc; where rating != null; limit '
+                               f'{500};'])
+        for gd in game_data:
+            if 'genres' in gd and len(gd['genres']) > 2:
+                games.append(gd)
+    while limit - 500 > 0:
+        game_data = requester(['games',
+                               'fields name, genres; where genres != null; sort rating desc; where rating != null; limit '
+                               f'{500}; offset {500 * it};'])
+        for gd in game_data:
+            if 'genres' in gd and len(gd['genres']) > 2:
+                games.append(gd)
+        it += 1
+        if limit - 500 > 0:
+            limit = limit - 500
+        else:
+            break
+    if limit > 0:
+        game_data = requester(['games',
+                               'fields name, genres; where genres != null; sort rating desc; where rating != null; limit '
+                               f'{limit}; offset {500 * it};'])
+        for gd in game_data:
+            if 'genres' in gd and len(gd['genres']) > 2:
+                games.append(gd)
     write_to_csv(headers, valid_genres, games, datafile=datafile)
 
 
 if __name__ == '__main__':
-    create_dataset()
+    create_dataset(game_limit="2500",  datafile='game_genres_extended2.csv')
     # create_dataset(datafile='new_dataset.csv')
+    # print(int(600/500))
+    # print(int(400/500))
