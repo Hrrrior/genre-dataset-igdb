@@ -82,7 +82,7 @@ def create_dataset(game_limit='300', datafile='game_genres.csv'):
 
 
 if __name__ == '__main__':
-    create_dataset(game_limit="2500",  datafile='game_genres_extended2.csv')
+    create_dataset(game_limit="5000",  datafile='game_genres_extended1.csv')
     # create_dataset(datafile='new_dataset.csv')
     # print(int(600/500))
     # print(int(400/500))
